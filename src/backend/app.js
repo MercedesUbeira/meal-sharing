@@ -23,9 +23,9 @@ app.use(cors());
 router.use("/meals", mealsRouter);
 
 app.get("/future-meals", async (req, res) => {
+  const now = new Date();
   try {  
-    let now = new Date();
-    let query = knex.from('Meal')
+    const query = knex.from('Meal')
     .select('when')
     .where ('when', '>', now)
     const results = await query
@@ -36,9 +36,9 @@ app.get("/future-meals", async (req, res) => {
 });
 
 app.get("/past-meals", async (req, res) => {
-  try { 
-  let now = new Date();
-  let query = knex.from('Meal')
+  const now = new Date();
+  try {
+  const query = knex.from('Meal')
   .select('when')
   .where ('when', '<', now)
   const results = await query
@@ -50,7 +50,7 @@ app.get("/past-meals", async (req, res) => {
 
 app.get("/all-meals", async (req, res) => {
   try { 
-  let query = knex.from('Meal')
+  const query = knex.from('Meal')
   .select('id')
   .orderBy('id', 'asc')
   const results = await query
@@ -62,7 +62,7 @@ app.get("/all-meals", async (req, res) => {
 
 app.get("/first-meal", async (req, res) => {
   try { 
-  let query = knex.from('Meal')
+  const query = knex.from('Meal')
   .select('id')
   .orderBy('id', 'asc')
   .first()
@@ -77,7 +77,7 @@ app.get("/first-meal", async (req, res) => {
 
 app.get("/last-meal", async (req, res) => {
   try { 
-  let query = knex.from('Meal')
+  const query = knex.from('Meal')
   .select('id')
   .orderBy('id', 'desc')
   .first()

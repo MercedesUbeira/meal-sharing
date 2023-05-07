@@ -1,19 +1,41 @@
-CREATE DATABASE meal_sharing;
-USE meal_sharing;
+CREATE DATABASE Meal_sharing;
+USE Meal_sharing;
 
 -- All this code has been formated with codebeautify
 -- Creating meal table
-CREATE TABLE `Meal` (
+CREATE TABLE Meal (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY, 
   `title` VARCHAR(255) NOT NULL, 
-  `description` TEXT NOT NULL,
+  `description` TEXT NOT NULL, 
   `location` VARCHAR(255) NOT NULL, 
   `when` DATETIME NOT NULL, 
   `max_reservations` int(50) NOT NULL, 
   `price` DECIMAL (10, 2) NOT NULL, 
   `created_date` DATETIME NOT NULL 
   );
-
+-- Creating reservation table
+CREATE TABLE Reservation (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  `title` VARCHAR(255) NOT NULL, 
+  `number_of_guests` int(100) NOT NULL, 
+  `meal_id` int(10) unasigned NOT NULL, 
+  FOREIGN KEY (`meal_id`) REFERENCES Meal (`id`)
+  `created _date` DATETIME NOT NULL, 
+  `contact_phonenumber` VARCHAR(255) NOT NULL, 
+  `contact_name` VARCHAR(255) NOT NULL, 
+  `contact_email` VARCHAR(255) NOT NULL,
+  CONSTRAINT `FK_meal` FOREIGN KEY (`meal_id`) REFERENCES `meal` (`id`) ON DELETE CASCADE
+  );
+-- Creating Review table
+CREATE TABLE Review (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  `title` VARCHAR(255) NOT NULL, 
+  `description` text NULL, 
+  `meal_id` int(10) unasigned NOT NULL, 
+  `stars` int(10) NOT NULL, 
+  `meal_id` int(10) unasigned NOT NULL, 
+  FOREIGN KEY (`meal_id`) REFERENCES Meal (`id`), 
+  );
 -- Adding data into tables
 INSERT INTO Meal (
   `id`, `title`, `description`, `location`, 
@@ -38,19 +60,50 @@ VALUES
     'Mitre, S2000 Rosario, Santa Fe, Argentina', 
     '2023-03-25', 20, 100.00, NOW()
   );
+-- Queries for meal table
+-- Get all meals
+SELECT 
+  * 
+FROM 
+  Meal;
+-- Add a new meal
+INSERT INTO Meal (
+  `id`, `title`, `description`, `location`, 
+  `when`, `max_reservations`, `price`, 
+  `created_date`
+) 
 VALUES 
   (
     4, 'American classic', 'Mc and cheese', 
     'Tryon, North Carolina 28016, USA', 
     '2023-03-30', 3, 100.00, NOW()
   );
-  VALUES 
-  (
-    5, 'Argentinian asado', 'asado', 
-    'bs as, callao 1280, Buenos Aires', 
-    '2024-03-08', 3, 400.00, NOW()
-  );
-
+-- Get a meal with any id, fx 1
+SELECT 
+  * 
+FROM 
+  Meal 
+WHERE 
+  id = 1;
+-- Update a meal with any id, fx 1. Update any attribute fx the title or multiple attributes
+UPDATE 
+  Meal 
+SET 
+  title = 'Fantastic Italian Dinner' 
+WHERE 
+  id = 1;
+-- Delete a meal with any id, fx 1:
+DELETE
+FROM 
+  Meal 
+WHERE 
+  id = 1;
+-- Queries for Reservation
+-- Get all reservations
+SELECT 
+  * 
+FROM 
+  Reservation;
 -- Add a new reservation
 INSERT INTO Reservation (
   `id`, `title`, `number_of_guests`, 
@@ -193,4 +246,3 @@ GROUP BY
   Meal.id 
 ORDER BY 
   avg_stars DESC;
-
